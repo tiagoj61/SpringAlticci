@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ErroMatrixMensageDto implements Serializable {
+public class ErroMensageDto implements Serializable {
 	private String mensagem;
 	private List<Integer> matrix;
 
-	public ErroMatrixMensageDto(String mensagem) {
+	public ErroMensageDto(String mensagem) {
 		super();
 		this.mensagem = mensagem;
 		matrix = new ArrayList();

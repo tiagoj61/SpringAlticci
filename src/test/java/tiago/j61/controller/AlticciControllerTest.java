@@ -17,7 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
-import tiago.j61.dto.ErroMatrixMensageDto;
+import tiago.j61.dto.ErroMensageDto;
 import tiago.j61.helper.ReflectionHelper;
 
 @ExtendWith(SpringExtension.class)
@@ -38,8 +38,8 @@ public class AlticciControllerTest {
 		String path = ReflectionHelper.getPathFromMethod(AlticciController.class, 0);
 		boolean isMatrixQuadratic = false;
 		try {
-			ResponseEntity<ErroMatrixMensageDto> response = new RestTemplate().postForEntity(url + path,
-					MatrixHelper.generateMatrixRequestDto(isMatrixQuadratic), ErroMatrixMensageDto.class);
+			ResponseEntity<ErroMensageDto> response = new RestTemplate().postForEntity(url + path,
+					MatrixHelper.generateMatrixRequestDto(isMatrixQuadratic), ErroMensageDto.class);
 
 		} catch (RestClientResponseException response) {
 			assertEquals(HttpStatus.BAD_REQUEST.value(), response.getRawStatusCode());
@@ -47,7 +47,7 @@ public class AlticciControllerTest {
 
 			JSONObject responseBody = assertDoesNotThrow(() -> new JSONObject(response.getResponseBodyAsString()));
 
-			String fieldNameMatrix = ReflectionHelper.getAttributeName(ErroMatrixMensageDto.class, 1);
+			String fieldNameMatrix = ReflectionHelper.getAttributeName(ErroMensageDto.class, 1);
 
 			JSONArray jsMatrixResponse = (JSONArray) assertDoesNotThrow(() -> responseBody.get(fieldNameMatrix));
 
@@ -55,7 +55,7 @@ public class AlticciControllerTest {
 
 			assertEquals(jsMatrixResponse.length(), 0);
 
-			String fieldNameMensage = ReflectionHelper.getAttributeName(ErroMatrixMensageDto.class, 0);
+			String fieldNameMensage = ReflectionHelper.getAttributeName(ErroMensageDto.class, 0);
 
 			assertNotNull(assertDoesNotThrow(() -> responseBody.get(fieldNameMensage)));
 		}
@@ -67,8 +67,8 @@ public class AlticciControllerTest {
 		String path = ReflectionHelper.getPathFromMethod(AlticciController.class, 0);
 		boolean isMatrixQuadratic = false;
 		try {
-			ResponseEntity<ErroMatrixMensageDto> response = new RestTemplate().postForEntity(url + path,
-					MatrixHelper.generateMatrixRequestWithoutArrrayDto(), ErroMatrixMensageDto.class);
+			ResponseEntity<ErroMensageDto> response = new RestTemplate().postForEntity(url + path,
+					MatrixHelper.generateMatrixRequestWithoutArrrayDto(), ErroMensageDto.class);
 
 		} catch (RestClientResponseException response) {
 			assertEquals(HttpStatus.BAD_REQUEST.value(), response.getRawStatusCode());
@@ -76,7 +76,7 @@ public class AlticciControllerTest {
 
 			JSONObject responseBody = assertDoesNotThrow(() -> new JSONObject(response.getResponseBodyAsString()));
 
-			String fieldNameMatrix = ReflectionHelper.getAttributeName(ErroMatrixMensageDto.class, 1);
+			String fieldNameMatrix = ReflectionHelper.getAttributeName(ErroMensageDto.class, 1);
 
 			JSONArray jsMatrixResponse = (JSONArray) assertDoesNotThrow(() -> responseBody.get(fieldNameMatrix));
 
@@ -84,7 +84,7 @@ public class AlticciControllerTest {
 
 			assertEquals(jsMatrixResponse.length(), 0);
 
-			String fieldNameMensage = ReflectionHelper.getAttributeName(ErroMatrixMensageDto.class, 0);
+			String fieldNameMensage = ReflectionHelper.getAttributeName(ErroMensageDto.class, 0);
 
 			assertNotNull(assertDoesNotThrow(() -> responseBody.get(fieldNameMensage)));
 		}
