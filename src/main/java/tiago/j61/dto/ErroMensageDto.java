@@ -6,12 +6,12 @@ import java.util.List;
 
 public class ErroMensageDto implements Serializable {
 	private String mensagem;
-	private List<Integer> matrix;
+	private int solicited;
 
-	public ErroMensageDto(String mensagem) {
+	public ErroMensageDto(String mensagem, int solicited) {
 		super();
 		this.mensagem = mensagem;
-		matrix = new ArrayList();
+		this.solicited = solicited;
 	}
 
 	public String getMensagem() {
@@ -22,12 +22,12 @@ public class ErroMensageDto implements Serializable {
 		this.mensagem = mensagem;
 	}
 
-	public List<Integer> getMatrix() {
-		return matrix;
+	public int getSolicited() {
+		return solicited;
 	}
 
-	public void setMatrix(List<Integer> matrix) {
-		this.matrix = matrix;
+	public void setSolicited(int solicited) {
+		this.solicited = solicited;
 	}
 
 }

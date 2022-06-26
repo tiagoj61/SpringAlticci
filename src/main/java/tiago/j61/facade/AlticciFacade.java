@@ -1,4 +1,4 @@
-package tiago.j61.facada;
+package tiago.j61.facade;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,7 +8,7 @@ import tiago.j61.dto.AlticciResponseDto;
 import tiago.j61.exception.SolicitedValueNegativeException;
 
 @Service
-public class AlticciFacada {
+public class AlticciFacade {
 	@Autowired
 	private AlticciBo alticciService;
 

@@ -19,13 +19,13 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 	@Bean
 	public Docket greetingApi() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("tiago.j61.projeto")).build().apiInfo(metaData());
+				.apis(RequestHandlerSelectors.basePackage("tiago.j61")).build().apiInfo(metaData());
 
 	}
 
 	private ApiInfo metaData() {
 		return new ApiInfoBuilder().title("Documentation for Rest API")
-				.description("Documentation for matrix flip project").version("1.0.0")
+				.description("Documentation for spring alticci project").version("1.0.0")
 
 				.build();
 	}

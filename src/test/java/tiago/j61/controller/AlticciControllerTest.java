@@ -3,21 +3,30 @@ package tiago.j61.controller;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.web.client.RestClientResponseException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpClientErrorException.BadRequest;
 import org.springframework.web.client.RestTemplate;
 
+import tiago.j61.dto.AlticciResponseDto;
 import tiago.j61.dto.ErroMensageDto;
+import tiago.j61.exception.SolicitedValueNegativeException;
 import tiago.j61.helper.ReflectionHelper;
 
 @ExtendWith(SpringExtension.class)
@@ -28,66 +37,60 @@ public class AlticciControllerTest {
 	private String port = "8080";
 
 	@BeforeEach
-	void asd() throws Exception {
+	void begin() throws Exception {
 		url = "http://localhost:" + port + "/";
 	}
 
 	@Test
 	@DisplayName("Test negative value")
+	@ExceptionHandler({ HttpClientErrorException.class })
 	void negativeValue() {
 		String path = ReflectionHelper.getPathFromMethod(AlticciController.class, 0);
-		boolean isMatrixQuadratic = false;
-		try {
-			ResponseEntity<ErroMensageDto> response = new RestTemplate().postForEntity(url + path,
-					MatrixHelper.generateMatrixRequestDto(isMatrixQuadratic), ErroMensageDto.class);
+		String uri = url + path;
 
-		} catch (RestClientResponseException response) {
-			assertEquals(HttpStatus.BAD_REQUEST.value(), response.getRawStatusCode());
-			assertNotNull(response.getResponseBodyAsString());
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("index", "-1");
+		
+		RestTemplate restTemplate = new RestTemplate();
+		
+		BadRequest response = Assertions.assertThrows(BadRequest.class, () -> {restTemplate.getForObject(uri, AlticciResponseDto.class, params);});
+		
+		assertEquals(HttpStatus.BAD_REQUEST.value(), response.getRawStatusCode());
 
-			JSONObject responseBody = assertDoesNotThrow(() -> new JSONObject(response.getResponseBodyAsString()));
-
-			String fieldNameMatrix = ReflectionHelper.getAttributeName(ErroMensageDto.class, 1);
-
-			JSONArray jsMatrixResponse = (JSONArray) assertDoesNotThrow(() -> responseBody.get(fieldNameMatrix));
-
-			assertNotNull(jsMatrixResponse);
-
-			assertEquals(jsMatrixResponse.length(), 0);
-
-			String fieldNameMensage = ReflectionHelper.getAttributeName(ErroMensageDto.class, 0);
-
-			assertNotNull(assertDoesNotThrow(() -> responseBody.get(fieldNameMensage)));
-		}
+		assertNotNull(response.getResponseBodyAsString());
 	}
 
 	@Test
+	@DisplayName("Test zero value")
+	void zeroValue() {
+		String path = ReflectionHelper.getPathFromMethod(AlticciController.class, 0);
+		String uri = url + path;
+
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("index", "0");
+
+		RestTemplate restTemplate = new RestTemplate();
+		AlticciResponseDto result = restTemplate.getForObject(uri, AlticciResponseDto.class, params);
+
+		assertNotNull(result);
+		assertEquals(result.getValueOriginal(), 0);
+		assertEquals(result.getValueRetrived(), 0);
+	}
+	@Test
 	@DisplayName("Test random value")
 	void randomValue() {
+		Integer index = new Random().nextInt(100) + 1;
 		String path = ReflectionHelper.getPathFromMethod(AlticciController.class, 0);
-		boolean isMatrixQuadratic = false;
-		try {
-			ResponseEntity<ErroMensageDto> response = new RestTemplate().postForEntity(url + path,
-					MatrixHelper.generateMatrixRequestWithoutArrrayDto(), ErroMensageDto.class);
+		String uri = url + path;
 
-		} catch (RestClientResponseException response) {
-			assertEquals(HttpStatus.BAD_REQUEST.value(), response.getRawStatusCode());
-			assertNotNull(response.getResponseBodyAsString());
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("index", index.toString());
 
-			JSONObject responseBody = assertDoesNotThrow(() -> new JSONObject(response.getResponseBodyAsString()));
+		RestTemplate restTemplate = new RestTemplate();
+		AlticciResponseDto result = restTemplate.getForObject(uri, AlticciResponseDto.class, params);
 
-			String fieldNameMatrix = ReflectionHelper.getAttributeName(ErroMensageDto.class, 1);
-
-			JSONArray jsMatrixResponse = (JSONArray) assertDoesNotThrow(() -> responseBody.get(fieldNameMatrix));
-
-			assertNotNull(jsMatrixResponse);
-
-			assertEquals(jsMatrixResponse.length(), 0);
-
-			String fieldNameMensage = ReflectionHelper.getAttributeName(ErroMensageDto.class, 0);
-
-			assertNotNull(assertDoesNotThrow(() -> responseBody.get(fieldNameMensage)));
-		}
+		assertNotNull(result);
+		assertEquals(result.getValueOriginal(), index);
 	}
 
 }
