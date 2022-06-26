@@ -19,8 +19,10 @@
 
 ## :hammer: Funcionalidades do projeto
 <p>O projeto pode ser rodado em qualquer máquina com o maven e o java 11 instalados, assim as referências a url se referem a url do usuário que está rodando o projeto.
-O projeto possui um Swagger embarcado para a realização de teste, acessível em: url/swagger-ui.html
 </p>
+
+- `Documentação`:
+   - O projeto possui um Swagger embarcado para a realização de teste, acessível em: url/swagger-ui.html
 
 - `Funcionalidade 1`: [POST] url/alticci
 
