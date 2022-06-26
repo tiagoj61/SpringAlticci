@@ -26,7 +26,7 @@ public class AlticciController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Value found", response = AlticciResponseDto.class),
 			@ApiResponse(code = 400, message = "Value not valid", response = ErroMensageDto.class),
 			@ApiResponse(code = 500, message = "Internal server error!") })
-	@GetMapping(path = "alticciValue/{index}")
+	@GetMapping(path = "alticci/{index}")
 	public ResponseEntity<?> getValue(@PathVariable int index) {
 		try {
 

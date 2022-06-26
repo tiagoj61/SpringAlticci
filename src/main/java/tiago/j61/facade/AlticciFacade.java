@@ -10,7 +10,7 @@ import tiago.j61.exception.SolicitedValueNegativeException;
 @Service
 public class AlticciFacade {
 	@Autowired
-	private AlticciBo alticciService;
+	private AlticciBo alticciBo;
 
 	public AlticciResponseDto getValueOfIndex(int index) throws SolicitedValueNegativeException {
 
@@ -20,7 +20,9 @@ public class AlticciFacade {
 		AlticciResponseDto response = new AlticciResponseDto();
 
 		response.setValueOriginal(index);
-		response.setValueRetrived(alticciService.getValueFromSequence(index));
+		response.setValueRetrived(alticciBo.getValueFromSequence(index));
+
+		alticciBo.addIndexNValueToCache(index, response.getValueRetrived());
 
 		return response;
 	}

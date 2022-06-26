@@ -28,7 +28,7 @@ class AlticciFacadeTests {
 	@Test
 	@DisplayName("Teste for random value")
 	void randomValue() {
-		int index = new Random().nextInt(100) + 1;
+		int index = new Random().nextInt(10) + 1;
 		assertDoesNotThrow(() -> alticciFacade.getValueOfIndex(index));
 	}
 
