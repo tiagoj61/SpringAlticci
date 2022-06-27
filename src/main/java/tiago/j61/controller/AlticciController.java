@@ -32,7 +32,7 @@ public class AlticciController {
 
 			AlticciResponseDto response = alticciFacade.getValueOfIndex(index);
 
-			return new ResponseEntity<>(response, HttpStatus.CREATED);
+			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (SolicitedValueNegativeException e) {
 			return new ResponseEntity<>(new ErroMensageDto(e.getMessage(), index), HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {

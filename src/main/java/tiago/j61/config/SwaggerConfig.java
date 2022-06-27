@@ -15,11 +15,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig extends WebMvcConfigurationSupport {
-	
+
 	@Bean
 	public Docket greetingApi() {
-		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("tiago.j61")).build().apiInfo(metaData());
+		return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.basePackage("tiago.j61"))
+				.build().apiInfo(metaData()).useDefaultResponseMessages(false);
 
 	}
 
