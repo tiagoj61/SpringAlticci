@@ -32,7 +32,7 @@
     ```
   - Response:
   
-    - 201:
+    - 200:
       ```
       {
         "valueOriginal": int,
